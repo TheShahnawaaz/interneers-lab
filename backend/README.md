@@ -430,4 +430,68 @@ The API provides clear error messages for various scenarios:
 - Django >= 5.1.7
 - Django REST Framework >= 3.15.2
 - django-cors-headers >= 4.7.0
-- python-dotenv >= 1.0.1 
+- python-dotenv >= 1.0.1
+
+## Testing
+
+This project includes a comprehensive test suite with unit tests. The tests are written using pytest and cover the following components:
+
+- Unit tests for the service layer
+- Parameterized tests for various validation scenarios
+
+### Running Tests
+
+You can run the tests using the `run_tests.py` script:
+
+```bash
+# Run all tests
+python run_tests.py
+
+# Run only unit tests
+python run_tests.py --type unit
+
+# Run tests with verbose output
+python run_tests.py --verbose
+
+# Run tests without coverage reporting
+python run_tests.py --no-coverage
+```
+
+### Test Structure
+
+The tests are organized in the following structure:
+
+```
+tests/
+  ├── unit/                # Unit tests
+  │   ├── test_product_service.py
+  │   ├── test_category_service.py
+  │   └── test_parameterized.py
+  └── seed_test_data.py    # Script to seed test data
+```
+
+### Code Coverage
+
+When you run the tests with coverage reporting enabled (the default), a coverage report will be generated in the console output and an HTML report will be generated in the `coverage_html` directory.
+
+## Development Workflow
+
+### Pull Request Process
+
+1. Create a feature branch from `main`
+2. Make your changes and add tests
+3. Run tests locally to ensure they pass
+4. Push your branch and create a pull request
+5. The CI workflow will automatically run tests on your PR
+6. After review and approval, your changes will be merged
+
+### Seeding Test Data
+
+You can use the provided seed script to populate the database with test data:
+
+```python
+from products.tests.seed_test_data import seed_all
+
+# Seed categories and products
+categories, products = seed_all()
+``` 
