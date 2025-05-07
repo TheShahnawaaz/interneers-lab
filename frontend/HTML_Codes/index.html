@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog - Premium Shopping</title>
+    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Product Catalog</h1>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search products...">
+            <i class="fa-solid fa-search search-icon"></i>
+        </div>
+        
+        <div class="filters">
+            <button class="filter-button active" data-category="all">All Products</button>
+            <!-- Category filters will be added dynamically -->
+        </div>
+    </header>
+    
+    <main id="product-container">
+        <div class="loading">Loading products...</div>
+    </main>
+    
+    <footer>
+        <p>© 2025 Premium Product Catalog</p>
+    </footer>
+    
+    <script src="js/products.js"></script>
+</body>
+</html> 

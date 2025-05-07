@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import mongoengine
+import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -131,7 +134,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 2,
+    'PAGE_SIZE': 10,
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
@@ -147,3 +150,33 @@ REST_FRAMEWORK = {
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True  # For development only
 CORS_URLS_REGEX = r'^/api/.*$'
+
+# Check if we're in test mode
+TESTING = 'test' in sys.argv or os.environ.get('DJANGO_TESTING') == 'True'
+
+# MongoEngine (MongoDB) connection setup
+if TESTING:
+    # Use mongomock for testing
+    import mongomock
+    mongoengine.connect('testdb', host='mongodb://localhost', mongo_client_class=mongomock.MongoClient)
+else:
+    # Regular MongoDB connection
+    MONGODB_SETTINGS = {
+        'db': 'productdb',
+        'host': 'localhost',
+        'port': 27017,
+        'username': 'root',
+        'password': 'example',
+        'authentication_source': 'admin',
+    }
+    
+    try:
+        mongoengine.connect(**MONGODB_SETTINGS)
+        print("Connected to MongoDB successfully")
+    except Exception as e:
+        print(f"Failed to connect to MongoDB: {e}")
+        print("Using mongomock as fallback")
+        import mongomock
+        mongoengine.connect('productdb', host='mongodb://localhost', mongo_client_class=mongomock.MongoClient)
+
+# Note: The default Django DATABASES config is not used for MongoEngine models.
